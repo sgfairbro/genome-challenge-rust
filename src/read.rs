@@ -12,7 +12,7 @@ pub struct Read<'a> {
 impl fmt::Display for Read<'_>{
 	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 		if self.b_has_two_slices {
-			write!(f, "{}{:?}", self.genome_slice_1, self.genome_slice_2)			
+			write!(f, "{}{}", self.genome_slice_1, self.genome_slice_2.as_deref().unwrap_or("default string") )			
 		}
 		else {
 			write!(f, "{}", self.genome_slice_1)
