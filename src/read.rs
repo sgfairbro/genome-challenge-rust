@@ -9,6 +9,20 @@ pub struct Read<'a> {
 	pub b_has_two_slices : bool
 }
 
+impl Read<'_> {
+	pub fn len(&self) -> u32 {
+		if self.b_has_two_slices {
+			let num_chars = self.genome_slice_1.chars().count() + 
+				self.genome_slice_2.as_deref().unwrap_or("default string").chars().count(); 
+			return num_chars as u32;
+
+		}
+		else {
+			return self.genome_slice_1.chars().count() as u32;
+		}
+	}
+}
+
 impl fmt::Display for Read<'_>{
 	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 		if self.b_has_two_slices {

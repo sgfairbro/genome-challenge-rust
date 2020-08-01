@@ -8,7 +8,7 @@ use rand::Rng;
 pub fn split_genome<'a>( 
 	genome_str : &'a str,
 	fraction : f32,
-	num_reads : i32 )  -> Vec<Read> {
+	num_reads : u32 )  -> Vec<Read> {
 
 	let mut reads_vec : Vec<Read> = vec![]; 
 
