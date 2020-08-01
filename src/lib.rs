@@ -33,9 +33,9 @@ pub fn split_genome<'a>(
 	}
 
 	// Start at a random character in the genome
-	let mut rng = rand::thread_rng();
-	let idx = rng.gen_range(0, genome_num_chars);
 	for _ in 0..num_reads {
+		let mut rng = rand::thread_rng();
+	    let idx = rng.gen_range(0, genome_num_chars);
 		let end_idx =  ( idx + num_chars_per_read ) % genome_num_chars;
 		// Create two slices if we need to wrap around genome string
 		if end_idx < idx {
