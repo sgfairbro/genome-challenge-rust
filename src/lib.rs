@@ -1,6 +1,17 @@
 mod read;
 use crate::read::Read;
+use petgraph::graph::Graph; 
 use rand::Rng;
+
+pub fn build_overlap_graph(
+	read_vec : Vec<Read> 
+){
+	let num_reads = read_vec.len();
+	let min_overlap_length = num_reads;
+
+	let mut overlap_graph = Graph::<(), ()>::new(); 
+}
+
 
 // splits a genome into a vector of string reads. String length 
 // is determined by fraction input. num_reads specifies how many

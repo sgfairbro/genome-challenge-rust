@@ -21,6 +21,33 @@ impl Read<'_> {
 			return self.genome_slice_1.chars().count() as u32;
 		}
 	}
+
+	pub fn get_overlap(&self, other_read: Read) ->u32 {
+
+
+// iterate through this read
+// iterate through other read 
+// if this char matches other char, increment
+// otherwise break 
+// 
+		let overlap_len = 0 as u32; 
+		for this_c in self.genome_slice_1.chars() {
+			for other_c in self.genome_slice_2.chars() {
+				if other_c == c {
+
+				}
+				else{
+					break; 
+				}
+			}
+		}
+
+
+	}
+}
+
+impl Iterator for Read<'_>{
+	
 }
 
 impl fmt::Display for Read<'_>{
