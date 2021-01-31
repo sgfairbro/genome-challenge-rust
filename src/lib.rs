@@ -50,20 +50,19 @@ pub fn split_genome<'a>(
 		let end_idx =  ( idx + num_chars_per_read ) % genome_num_chars;
 		// Create two slices if we need to wrap around genome string
 		if end_idx < idx {
+			let mut read_str_1 = genome_str[idx..].to_string();
+			let read_str_2 = &genome_str[..end_idx]; 
+			read_str_1.push_str( read_str_2 ); 
+
 			let genome_read = Read {
-				genome_slice_1 : &genome_str[idx..],
-				genome_slice_2 : Some(&genome_str[..end_idx]),
-				b_has_two_slices : true
+				read_str : read_str_1
 			};
 			reads_vec.push( genome_read );
-
 		}
 		// easier case. Just slice genome
 		else {
 			let genome_read = Read {
-				genome_slice_1 : &genome_str[idx..end_idx],
-				genome_slice_2 : None, 
-				b_has_two_slices : false
+				read_str : genome_str[idx..end_idx].to_string(),
 			};
 			reads_vec.push( genome_read );
 		}
