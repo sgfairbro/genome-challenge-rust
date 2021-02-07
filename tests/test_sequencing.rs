@@ -1,4 +1,5 @@
 use rand::Rng;
+use petgraph::dot::{Dot, Config};
 
 // Contains possible genome chars - A, C, G, T
 struct PossibleReadChars {
@@ -71,6 +72,33 @@ mod tests {
 		for slice_it in slices_vec.iter(){
 			println!("genome slice: {}", slice_it ); 
 		}
+	}
+
+	#[test]
+	fn test_generate_overlap_graph(){
+		let mut rng = rand::thread_rng();
+	    let genome_length = rng.gen_range(1, 100);
+		let genome_str = generate_genome(genome_length);
+		println!("genome str: {}", genome_str);
+		println!("genome length: {}", genome_length);
+		assert_eq!(genome_str.chars().count() as u32, genome_length);
+
+		let num_reads = ( genome_length / 4 ) as u32; 
+		println!("num reads: {}", num_reads); 
+
+		let fraction = rng.gen_range( 0.0, 1.0 ); 
+		println!("fraction: {}", fraction); 
+
+		let slices_vec = genome::split_genome( &genome_str, fraction, num_reads);
+		let graph = genome::build_overlap_graph(&slices_vec);
+		let nodes_array = graph.raw_nodes(); 
+
+		// Assert there's a graph node for every read
+		assert_eq!(num_reads as usize, nodes_array.len()); 
+
+		// Output the tree to `graphviz` `DOT` format
+		println!("{:?}", Dot::with_config(&graph, &[Config::EdgeNoLabel]));
+
 	}
 
     #[test]

@@ -1,15 +1,36 @@
 mod read;
+use std::collections::HashMap;
 use crate::read::Read;
 use petgraph::graph::Graph; 
 use rand::Rng;
 
 pub fn build_overlap_graph(
-	read_vec : Vec<Read> 
-){
+	read_vec : &Vec<Read> ) -> Graph::<Read, u32>{
+	if read_vec.is_empty() {
+		println!("Error, can't build graph because read_vec is empty"); 
+	}
 	let num_reads = read_vec.len();
-	let min_overlap_length = num_reads;
 
-	let mut overlap_graph = Graph::<(), ()>::new(); 
+	let mut overlap_graph = Graph::<Read, u32>::new(); 
+
+	let mut read_to_node_hash = HashMap::new();
+	// Add all reads to graph
+	for r in read_vec {
+		let node = overlap_graph.add_node(Read::clone(r)); 
+		read_to_node_hash.insert(r, node);
+	}
+
+	for (pos, r) in read_vec.iter().enumerate() {
+		for other_pos in ( pos + 1 )..num_reads {
+			let other_read = &read_vec[other_pos];
+			let overlap_len: u32 = r.get_overlap(other_read); 
+
+			let this_node = read_to_node_hash[r]; 
+			let other_node = read_to_node_hash[other_read];
+			overlap_graph.add_edge(this_node, other_node, overlap_len); 
+		}
+	}
+	overlap_graph
 }
 
 
